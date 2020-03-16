@@ -59,15 +59,15 @@ The flow diagram is presented in the picture below:
 
 Make sure the latest MCC libraries for PIC16F18875 MCU are installed. The demo/example uses the following version of software tools from Microchip:
 
-* MPLAB® X IDE v5.10
+* MPLAB® X IDE v5.30
 
-* MPLAB® Code Configurator (Plugin) v3.75
+* MPLAB® Code Configurator (Plugin) v3.95
 
-* MCC Core v4.45.9
+* MCC Core v4.85
 
-* Microcontrollers and peripherals Library v1.76.0
+* Microcontrollers and peripherals Library v1.78.1
 
-* XC8 v2.00
+* XC8 v2.10
 
 # Demo Hardware Setup #
 
