@@ -3,13 +3,21 @@
 This project is an upgrade to [DC motor constant speed](https://mplabxpress.microchip.com/mplabcloud/Example/Details/712). The additional feature is the use of a timer with Hardware Limit Timer feature (HLT) to stop the motor driving if the motor gets stalled. The timer is configured to overflow and generate an interrupt every 50 ms. The HLT reads the pulses from the phototransistor and resets the timer on every signal edge, so when the motor is running, the timer never overflows. If the motor is stopped however by an external force, then the pulses from the phototransistor will also stop, and the HLT will not reset the timer anymore, thus letting the timer to overflow after 50 ms. On the ISR, the motor driving is turned off, in order to prevent the damaging of the driving circuit.
 
 # Hardware Requirements #
+
 *PIC16F18875 (40-pin, PDIP)
+
 *Curiosity High Pin Count (HPC) development board
+
 *Power NMOS transistor: F15N60E / IRF540N / etc.
+
 *DC motor: PAN14EE12AA1 / other similar
+
 *Power supply for the DC motor: 9V 1.3A / other, depending on the motor
+
 *5mm white LED / other similar
+
 *Phototransistor: TEPT5700 / other similar
+
 *3D printed assembly / other mechanical setup
 
 ![Hardware Setup](image/HWsetup1.jpg)
@@ -19,15 +27,25 @@ This project is an upgrade to [DC motor constant speed](https://mplabxpress.micr
 In this demo,
 
 *PIC16F18875 MCU is used to generate the PWM signal.
+
 *The Curiosity HPC board is used as it has got on-board programmer and debugger.
+
 *A 3D printed spinning wheel with 24 holes on its circumference is mounted on the motor shaft.
+
 *A 3D printed case holds the motor in place, and also an LED and a phototransistor that act as an encoder so that when the spinning wheel is rotating, the holes create pulses in the light that gets to the phototransistor, with a frequency that is proportional to the rotation speed.
+
 *An analog comparator of the PIC16F18875 is used to read the pulses from the phototransistor and output a square wave.
+
 *Signal Measurement Timer (SMT) is used to measure the period of the square wave. That can be done with a normal timer as well, but requires more code. With the SMT it is straightforward.
+
 *The PIC reads the period from the SMT and computes the rotation speed (in RPM) and compares it against the desired rotation speed that is set using the potentiometer.
+
 *The PWM is adjusted in order to compensate the speed error.
+
 *The result is that the rotation speed stays constant and does not depend on the motor load.
+
 *A timer with HLT is used to stop driving the motor if the motor gets stalled.
+
 The 3D printed parts are presented in the picture below:
 
 ![3D-printed parts](image/HWsetup2.jpg)
@@ -42,14 +60,19 @@ The flow diagram is presented in the picture below:
 Make sure the latest MCC libraries for PIC16F18875 MCU are installed. The demo/example uses the following version of software tools from Microchip:
 
 *MPLAB® X IDE v5.10
+
 *MPLAB® Code Configurator (Plugin) v3.75
+
 *MCC Core v4.45.9
+
 *Microcontrollers and peripherals Library v1.76.0
+
 *XC8 v2.00
 
 # Demo Hardware Setup #
 
 *Mount the spinning wheel on the motor shaft.
+
 *Mount the motor, LED and phototransistor inside the 3D printed case and assemble it using M3 bolts and nuts. It should look like this:
 
 ![Hardware Setup](image/HWsetup3.jpg)
@@ -117,12 +140,19 @@ The TMR4 with the HLT feature is used to turn off the motor driving if the motor
 The pins are configured as follows:
 
 *ADCC input on RA0, named channel_ANA0
+
 *PWM6 output on RA4
+
 *CMP1 negative input on RA1
+
 *CMP1 positive input on RA2
+
 *CMP1 output on RA5 (for debug on the D3 LED)
+
 *GPIO output on RA6, named LED_D4 (for debug, toggled from code on every period acquisition)
+
 *GPIO input on RB4, named S1 (for reading the S1 switch), with weak pull-up enabled
+
 *GPIO input on RC5, named S2 (for reading the S2 switch), with weak pull-up enabled
 
 ![Pin Configurations](image/pinManager.png)
@@ -133,11 +163,13 @@ The pins are configured as follows:
 The source code for this project can be downloaded from the current page by clicking the "Download" button, or if you want to make your own project, please pay attention to the following steps:
 
 *After making the MCC Settings, press the "Generate" button, and it will generate the required C and header files.
+
 *Then please go to the "smt1.c" file and comment this function:
 
 ![Comment out SMT1 ISR](image/ISR.png)
 
 so that it does not conflict with the same function from the "main.c" file, where the ISR code was added.
+
 *Also in the "main.c" file, don't forget to enable the interrupts by uncommenting these lines:
 
 ![Interrupt enable](image/int.png)
