@@ -31,7 +31,9 @@ In this demo,
 The 3D printed parts are presented in the picture below:
 
 ![3D-printed parts](image/HWsetup2.jpg)
+
 The flow diagram is presented in the picture below:
+
 ![Flow Diagram](image/flowchart.png)
 
 
@@ -49,8 +51,11 @@ Make sure the latest MCC libraries for PIC16F18875 MCU are installed. The demo/e
 
 *Mount the spinning wheel on the motor shaft.
 *Mount the motor, LED and phototransistor inside the 3D printed case and assemble it using M3 bolts and nuts. It should look like this:
+
 ![Hardware Setup](image/HWsetup3.jpg)
+
 *Make the connections according to this schematic:
+
 ![Schematic](image/schematic.png)
 
 # MCC Settings #
@@ -60,6 +65,7 @@ This section shows the settings used in the demo/example for various MCU modules
 ## System Module Settings ##
 
 The MCU uses the high frequency internal oscillator (HFINTOSC), and the clock is set to 32 MHz. Watchdog Timer is not used in this demo, so it is disabled.
+
 ![System Module Configuration](image/systemModule.png)
 
 ## ADCC Settings ##
@@ -71,7 +77,9 @@ ADCC is used to read the potentiometer. It is configured to operate in Low pass 
 For the Low pass filter mode, there are 2 more settings that must be configured from the Registers view. They are ADRPT and ADCRS.
 
 ![ADCC ADRPT](image/ADCC2.png)
+
 ![ADCC ADCON2](image/ADCC3.png)
+
 With these settings, the filtering will use 8 ADC samples.
 
 ## TMR2 Settings ## 
@@ -126,9 +134,12 @@ The source code for this project can be downloaded from the current page by clic
 
 *After making the MCC Settings, press the "Generate" button, and it will generate the required C and header files.
 *Then please go to the "smt1.c" file and comment this function:
+
 ![Comment out SMT1 ISR](image/ISR.png)
+
 so that it does not conflict with the same function from the "main.c" file, where the ISR code was added.
 *Also in the "main.c" file, don't forget to enable the interrupts by uncommenting these lines:
+
 ![Interrupt enable](image/int.png)
 
 # Operation # 
