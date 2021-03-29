@@ -26,7 +26,7 @@ This project is an upgrade to [DC motor constant speed](https://mplabxpress.micr
 - Phototransistor: TEPT5700 / other similar
 - 3D printed assembly / other mechanical setup
 
-![Hardware Setup](image/HWsetup1.jpg)
+![Hardware Setup](images/HWsetup1.jpg)
 
 ## Setup
 
@@ -45,11 +45,11 @@ In this demo,
 
 The 3D printed parts are presented in the picture below:
 
-![3D-printed parts](image/HWsetup2.jpg)
+![3D-printed parts](images/HWsetup2.jpg)
 
 The flow diagram is presented in the picture below:
 
-![Flow Diagram](image/flowchart.png)
+![Flow Diagram](images/flowchart.png)
 
 
 ### Demo Hardware Instructions
@@ -57,11 +57,11 @@ The flow diagram is presented in the picture below:
 - Mount the spinning wheel on the motor shaft.
 - Mount the motor, LED and phototransistor inside the 3D printed case and assemble it using M3 bolts and nuts. It should look like this:
 
-![Hardware Setup](image/HWsetup3.jpg)
+![Hardware Setup](images/HWsetup3.jpg)
 
 - Make the connections according to this schematic:
 
-![Schematic](image/schematic.png)
+![Schematic](images/schematic.png)
 
 ### MCC Settings
 
@@ -71,19 +71,19 @@ This section shows the settings used in the demo/example for various MCU modules
 
 The MCU uses the high frequency internal oscillator (HFINTOSC), and the clock is set to 32 MHz. Watchdog Timer is not used in this demo, so it is disabled.
 
-![System Module Configuration](image/systemModule.png)
+![System Module Configuration](images/systemModule.png)
 
 ### ADCC Settings
 
 ADCC is used to read the potentiometer. It is configured to operate in Low pass filter mode, with a clock of Fosc/32.
 
-![ADCC Configuration](image/ADCC.png)
+![ADCC Configuration](images/ADCC.png)
 
 For the Low pass filter mode, there are 2 more settings that must be configured from the Registers view. They are ADRPT and ADCRS.
 
-![ADCC ADRPT](image/ADCC2.png)
+![ADCC ADRPT](images/ADCC2.png)
 
-![ADCC ADCON2](image/ADCC3.png)
+![ADCC ADCON2](images/ADCC3.png)
 
 With these settings, the filtering will use 8 ADC samples.
 
@@ -91,31 +91,31 @@ With these settings, the filtering will use 8 ADC samples.
 
 The TMR2 is used as a clock source for the PWM signal.
 
-![TMR2 Configuration](image/timer2.png)
+![TMR2 Configuration](images/timer2.png)
 
 ### PWM6 Settings
 
 The PWM6 is used to generate the PWM signal for the motor. It uses the TMR2 as clock source. The duty cycle is updated at runtime according to the amplified difference between the desired speed and the speed set with the potentiometer..
 
-![PWM6 Configuration](image/pwm6.png)
+![PWM6 Configuration](images/pwm6.png)
 
 ### CMP1 Settings
 
 The CMP1 analog comparator is used to read the phototransistor and output a square wave.
 
-![CMP1 Configuration](image/cmp1.png)
+![CMP1 Configuration](images/cmp1.png)
 
 ### SMT1 Settings
 
 The Signal Measurement Timer is configured in Period and Duty-Cycle Acquisition mode, with the signal coming from the output of the CMP1. The SMT1 has MFINTOSC/16 set as clock source, so it will count in steps of 32 microseconds. Other clock sources can be selected depending on the range of the measured signal.
 
-![SMT1 Configuration](image/smt1.png)
+![SMT1 Configuration](images/smt1.png)
 
 ### TMR4 (with HLT) Settings
 
 The TMR4 with the HLT feature is used to turn off the motor driving if the motor gets stalled. It is configured to interrupt after 49.92 ms, and to reset at rising/falling edges of the C1OUT, which is the output of CMP1 comparator. When the motor is running, the comparator reads the pulses and the TMR4 keeps resetting. When the motor gets stopped however, the TMR4 does not reset anymore and generates the interrupt, and the ISR stops the motor.
 
-![TMR4 Configuration](image/timer4.png)
+![TMR4 Configuration](images/timer4.png)
 
 ### Pin Manager Settings
 
@@ -130,8 +130,8 @@ The pins are configured as follows:
 - GPIO input on RB4, named S1 (for reading the S1 switch), with weak pull-up enabled
 - GPIO input on RC5, named S2 (for reading the S2 switch), with weak pull-up enabled
 
-![Pin Configurations](image/pinManager.png)
-![Pin Module Configurations](image/pinModule.png)
+![Pin Configurations](images/pinManager.png)
+![Pin Module Configurations](images/pinModule.png)
 
 ### Demo Code
 
@@ -140,13 +140,13 @@ The source code for this project can be downloaded from the current page by clic
 - After making the MCC Settings, press the "Generate" button, and it will generate the required C and header files.
 - Then please go to the "smt1.c" file and comment this function:
 
-![Comment out SMT1 ISR](image/ISR.png)
+![Comment out SMT1 ISR](images/ISR.png)
 
 so that it does not conflict with the same function from the "main.c" file, where the ISR code was added.
 
 - Also in the "main.c" file, don't forget to enable the interrupts by uncommenting these lines:
 
-![Interrupt enable](image/int.png)
+![Interrupt enable](images/int.png)
 
 ## Demo 
 1. After making the above hardware connections, connect the Curiosity HPC board to PC using the USB cable.
